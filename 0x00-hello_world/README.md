@@ -1,1 +1,1 @@
-Hello, World program sample in C
+C is fun
