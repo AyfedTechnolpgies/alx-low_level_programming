@@ -1,90 +1,43 @@
-#include <stdio.h>
 #include "dog.h"
 #include <stdlib.h>
-
 /**
- * _strlen - swaps integers with pointers.
- * @s: is a pointer to a char
- *
- * Return: nothing.
-**/
-int _strlen(char *s)
-{
-int i;
-for (i = 0; *s != '\0'; s++)
-{
-i++;
-}
-return (i);
-}
-
-/**
- * _strncpy - Swaps integers wih pointers.
- *
- * @dest: is a pointer to a char.
- *
- * @src: is a pointer to a char.
- *
- * @n: is a pointer to an int.
- *
- * Return: Always 0.
- */
-
-char *_strncpy(char *dest, char *src, int n)
-{
-int i;
-
-for (i = 0; i < n && src[i] != '\0'; i++)
-dest[i] = src[i];
-
-for (i = i; i < n; i++)
-dest[i] = '\0';
-
-return (dest);
-}
-
-/**
- * new_dog - Creates function with copy of name and owner
- *
- * @name: name parameter
- * @age: age parameter
- * @owner: owner parameter
- *
- * Return: nothing.
-**/
-
+ * new_dog - creates a new dog.
+ * @name: pointer to a char for name of dog
+ * @age: age of dog
+ * @owner: pointer to a char for owner of dog
+ * Return: pointer to a new dog of type dog_t
+ **/
 dog_t *new_dog(char *name, float age, char *owner)
 {
-dog_t *newDog;
-char *newName;
-char *newOwner;
-int size = 4;
+	int nameLen, ownerLen, i;
+	dog_t *d1;
 
-newDog = (dog_t *)malloc(sizeof(struct dog) * size);
-if (newDog == NULL)
-{
-free(newDog);
-return (NULL);
+	d1 = (dog_t *)malloc(sizeof(dog_t));
+	if (d1 == NULL)
+		return (NULL);
+	nameLen = ownerLen = 0;
+	while (name[nameLen++])
+		;
+	while (owner[ownerLen++])
+		;
+	d1->name = malloc(nameLen * sizeof(d1->name));
+	if (d1->name == NULL)
+	{
+		free(d1);
+		return (NULL);
+	}
+	for (i = 0; i <= nameLen; i++)
+		d1->name[i] = name[i];
+	d1->age = age;
+	d1->owner = malloc(ownerLen * sizeof(d1->owner));
+	if (d1->owner == NULL)
+	{
+		free(d1->name);
+		free(d1);
+		return (NULL);
+	}
+	for (i = 0; i <= ownerLen; i++)
+		d1->owner[i] = owner[i];
+	return (d1);
 }
-newName = (char *)malloc(sizeof((name) + 1) * size);
-if (newName == NULL)
-{
-free(newDog);
-return (NULL);
-}
-newOwner = (char *)malloc(sizeof((owner) + 1) * size);
-if (newOwner == NULL)
-{
-free(newDog);
-free(newName);
-return (NULL);
-}
-newName = name;
-newOwner = owner;
 
-newDog->name = newName;
-newDog->owner = newOwner;
-newDog->age = age;
-
-return (newDog);
-}
